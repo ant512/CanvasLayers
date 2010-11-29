@@ -6,10 +6,14 @@
 
 var container;
 var layer1;
+var layer2
 var timer;
 
 var layer1dx = 1;
-var layer1dy = 1;
+var layer1dy = 2;
+
+var layer2dx = 2;
+var layer2dy = -1;
 
 function init(canvasId) {
 
@@ -17,14 +21,14 @@ function init(canvasId) {
 	var canvas = document.getElementById(canvasId);
 	container = new CanvasLayers.Container(canvas);
 	
-	layer1 = new CanvasLayers.Layer(10, 10, 60, 60);
+	layer1 = new CanvasLayers.Layer(10, 60, 60, 60);
 	container.children.add(layer1);
 	
 	var rect = layer1.getClientRect();
 	var layer1child1 = new CanvasLayers.Layer(rect.x, rect.y, 30, 30);
 	layer1.children.add(layer1child1);
 	
-	var layer2 = new CanvasLayers.Layer(20, 20, 100, 100);
+	layer2 = new CanvasLayers.Layer(20, 20, 100, 100);
 	container.children.add(layer2);
 		
 	var layer3 = new CanvasLayers.Layer(50, 50, 200, 200);
@@ -133,7 +137,7 @@ function changeScene() {
 	}
 	
 	if (layer1.rect.y + layer1.rect.height >= container.getHeight()) {
-		layer1dy = -1;
+		layer1dy = -2;
 	}
 	
 	if (layer1.rect.x <= 0) {
@@ -141,7 +145,25 @@ function changeScene() {
 	}
 	
 	if (layer1.rect.y <= 0) {
-		layer1dy = 1;
+		layer1dy = 2;
+	}
+	
+	layer2.moveTo(layer2.rect.x + layer2dx, layer2.rect.y + layer2dy);
+	
+	if (layer2.rect.x + layer2.rect.width >= container.getWidth()) {
+		layer2dx = -2;
+	}
+	
+	if (layer2.rect.y + layer2.rect.height >= container.getHeight()) {
+		layer2dy = -1;
+	}
+	
+	if (layer2.rect.x <= 0) {
+		layer2dx = 2;
+	}
+	
+	if (layer2.rect.y <= 0) {
+		layer2dy = 1;
 	}
 	
 	container.redraw();
