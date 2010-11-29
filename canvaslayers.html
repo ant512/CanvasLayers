@@ -83,6 +83,42 @@ function init(canvasId) {
 		context.restore();
 	}
 	
+	layer3.onRender = function(rect, context) {
+		context.save();
+		context.beginPath();
+		context.rect(rect.x, rect.y, rect.width, rect.height);
+		context.clip();
+		
+		context.fillStyle = '#ff0';
+		context.fillRect(0, 0, 400, 400);
+		context.closePath();
+		context.restore();
+	}
+	
+	layer3child1.onRender = function(rect, context) {
+		context.save();
+		context.beginPath();
+		context.rect(rect.x, rect.y, rect.width, rect.height);
+		context.clip();
+		
+		context.fillStyle = '#f0f';
+		context.fillRect(0, 0, 400, 400);
+		context.closePath();
+		context.restore();
+	}
+	
+	layer3child2.onRender = function(rect, context) {
+		context.save();
+		context.beginPath();
+		context.rect(rect.x, rect.y, rect.width, rect.height);
+		context.clip();
+		
+		context.fillStyle = '#f00';
+		context.fillRect(0, 0, 400, 400);
+		context.closePath();
+		context.restore();
+	}
+	
 	timer = setInterval("changeScene()", 10);
 }
 

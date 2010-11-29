@@ -8,9 +8,9 @@ var CanvasLayers = {
 	 * @param height The height of the layer.
 	 */
 	Layer: function(x, y, width, height) {
-		this.parent = null;
-		this.visible = true;
-		this.draggable = true;
+		this.parent = null;				// Parent layer
+		this.visible = true;			// Visible or hidden
+		this.canvas = null;				// Drawing space
 		
 		this.rect = new CanvasLayers.Rectangle(x, y, width, height);
 		this.children = new CanvasLayers.LayerCollection(this);
@@ -61,7 +61,7 @@ var CanvasLayers = {
 		// Call base constructor
 		CanvasLayers.Layer.prototype.constructor.call(this, 0, 0, canvas.width, canvas.height);
 		
-		this.canvas = canvas;			// Drawing space
+		this.canvas = canvas;
 		
 		this.damagedRectManager = new CanvasLayers.DamagedRectManager(this);
 		
@@ -568,8 +568,12 @@ CanvasLayers.Layer.prototype.isVisible = function() {
  * @return The layer's canvas.
  */
 CanvasLayers.Layer.prototype.getCanvas = function() {
-	if (this.parent) return this.parent.getCanvas();
-	return null;
+	if (!this.canvas) {
+		if (this.parent) {
+			this.canvas = this.parent.getCanvas();
+		}
+	}
+	return this.canvas;
 }
 
 /**
@@ -862,12 +866,6 @@ CanvasLayers.Layer.prototype.lowerChildToBottom = function(child) {
 CanvasLayers.Container.prototype = new CanvasLayers.Layer;
 
 CanvasLayers.Container.prototype.constructor = CanvasLayers.Container;
-
-/**
- * Gets the layer's canvas.
- * @return The layer's canvas.
- */
-CanvasLayers.Container.prototype.getCanvas = function() { return this.canvas; }
 
 /**
  * Gets the damaged rectangle manager.
