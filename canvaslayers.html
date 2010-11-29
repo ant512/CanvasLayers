@@ -1,0 +1,100 @@
+<html>
+	<head>
+		<title>Canvas Layers</title>
+		<script type="application/javascript" src="canvaslayers.js"></script>
+		<script type="application/javascript">
+
+var container;
+var layer1;
+var timer;
+
+function init(canvasId) {
+
+	// Layer setup
+	var canvas = document.getElementById(canvasId);
+	container = new CanvasLayers.Container(canvas);
+	
+	layer1 = new CanvasLayers.Layer(10, 10, 60, 60);
+	container.children.add(layer1);
+	
+	var rect = layer1.getClientRect();
+	var layer1child1 = new CanvasLayers.Layer(rect.x, rect.y, 30, 30);
+	layer1.children.add(layer1child1);
+	
+	var layer2 = new CanvasLayers.Layer(20, 20, 100, 100);
+	container.children.add(layer2);
+		
+	var layer3 = new CanvasLayers.Layer(50, 50, 200, 200);
+	container.children.add(layer3);
+	
+	rect = layer3.getClientRect();
+	var layer3child1 = new CanvasLayers.Layer(rect.x, rect.y, 100, 20);
+	layer3.children.add(layer3child1);
+		
+	var layer3child2 = new CanvasLayers.Layer(rect.x, rect.y + 20, 100, 20);
+	layer3.children.add(layer3child2);
+	
+	// Layer rendering methods
+	container.onRender = function(rect, context) {
+		context.save();
+		context.beginPath();
+		context.rect(rect.x, rect.y, rect.width, rect.height);
+		context.clip();
+		
+		context.fillStyle = '#000';
+		context.fillRect(0, 0, 400, 400);
+		context.closePath();
+		context.restore();
+	}
+	
+	layer1child1.onRender = function(rect, context) {
+		context.save();
+		context.beginPath();
+		context.rect(rect.x, rect.y, rect.width, rect.height);
+		context.clip();
+		
+		context.fillStyle = '#0f0';
+		context.fillRect(0, 0, 400, 400);
+		context.closePath();
+		context.restore();
+	}
+	
+	layer1.onRender = function(rect, context) {
+		context.save();
+		context.beginPath();
+		context.rect(rect.x, rect.y, rect.width, rect.height);
+		context.clip();
+		
+		context.fillStyle = '#00f';
+		context.fillRect(0, 0, 400, 400);
+		context.closePath();
+		context.restore();
+	}
+	
+	layer2.onRender = function(rect, context) {
+		context.save();
+		context.beginPath();
+		context.rect(rect.x, rect.y, rect.width, rect.height);
+		context.clip();
+		
+		context.fillStyle = '#0ff';
+		context.fillRect(0, 0, 400, 400);
+		context.closePath();
+		context.restore();
+	}
+	
+	timer = setInterval("changeScene()", 10);
+}
+
+function changeScene() {
+	layer1.moveTo(layer1.rect.x + 1, layer1.rect.y);
+	container.redraw();
+}
+
+		</script>
+	</head>
+	
+	<body onload="init('canvas')">
+		<canvas id="canvas" width="400" height="400"></canvas>
+	</body>
+</html>
