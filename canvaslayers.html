@@ -19,7 +19,7 @@ function init(canvasId) {
 
 	// Layer setup
 	var canvas = document.getElementById(canvasId);
-	container = new CanvasLayers.Container(canvas);
+	container = new CanvasLayers.Container(canvas, true);
 	
 	layer1 = new CanvasLayers.Layer(10, 60, 60, 60);
 	container.children.add(layer1);
@@ -50,7 +50,7 @@ function init(canvasId) {
 		context.rect(rect.x, rect.y, rect.width, rect.height);
 		context.clip();
 		
-		context.fillStyle = '#000';
+		context.fillStyle = '#fff';
 		context.fillRect(0, 0, 400, 400);
 		context.closePath();
 		context.restore();
@@ -74,7 +74,7 @@ function init(canvasId) {
 		context.rect(rect.x, rect.y, rect.width, rect.height);
 		context.clip();
 		
-		context.fillStyle = '#00f';
+		context.fillStyle = 'rgba(10, 10, 10, 0.5)';
 		context.fillRect(layer1.getX() + 10, layer1.getY() + 10, layer1.getWidth(), layer1.getHeight());
 		context.closePath();
 		context.restore();

@@ -44,11 +44,15 @@ var CanvasLayers = {
 	/**
 	 * Manages the list of damaged rectangles.
 	 * @param Layer This should always be the top-level layer.
+	 * @param supportsTransparency Should be true if the layers will display
+	 * non-rectangular content or if the canvas tag's transparency capabilities
+	 * will be used to allow layers to be translucent.  This has a potential
+	 * performance penalty so should only be used if necessary.
 	 */
-	DamagedRectManager: function(layer) {
+	DamagedRectManager: function(layer, supportsTransparency) {
 		this.layer = layer;
 		this.damagedRects = new Array();
-		this.supportsTransparency = true;
+		this.supportsTransparency = supportsTransparency;
 	},
 	 
 	
@@ -56,15 +60,19 @@ var CanvasLayers = {
 	 * Top-level layer that contains the rest of the structure.  An instance of
 	 * this should be created in order to create a layer system.
 	 * @param canvas The canvas on which the system will be displayed.
+	 * @param supportsTransparency Should be true if the layers will display
+	 * non-rectangular content or if the canvas tag's transparency capabilities
+	 * will be used to allow layers to be translucent.  This has a potential
+	 * performance penalty so should only be used if necessary.
 	 */
-	Container: function(canvas) {
+	Container: function(canvas, supportsTransparency) {
 
 		// Call base constructor
 		CanvasLayers.Layer.prototype.constructor.call(this, 0, 0, canvas.width, canvas.height);
 		
 		this.canvas = canvas;
 		
-		this.damagedRectManager = new CanvasLayers.DamagedRectManager(this);
+		this.damagedRectManager = new CanvasLayers.DamagedRectManager(this, supportsTransparency);
 		
 		// Ensure that the damaged rect manager knows to redraw this layer
 		this.damagedRectManager.addDamagedRect(this.rect);
