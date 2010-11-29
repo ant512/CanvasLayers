@@ -8,6 +8,9 @@ var container;
 var layer1;
 var timer;
 
+var layer1dx = 1;
+var layer1dy = 1;
+
 function init(canvasId) {
 
 	// Layer setup
@@ -123,7 +126,24 @@ function init(canvasId) {
 }
 
 function changeScene() {
-	layer1.moveTo(layer1.rect.x + 1, layer1.rect.y);
+	layer1.moveTo(layer1.rect.x + layer1dx, layer1.rect.y + layer1dy);
+	
+	if (layer1.rect.x + layer1.rect.width >= container.getWidth()) {
+		layer1dx = -1;
+	}
+	
+	if (layer1.rect.y + layer1.rect.height >= container.getHeight()) {
+		layer1dy = -1;
+	}
+	
+	if (layer1.rect.x <= 0) {
+		layer1dx = 1;
+	}
+	
+	if (layer1.rect.y <= 0) {
+		layer1dy = 1;
+	}
+	
 	container.redraw();
 }
 
