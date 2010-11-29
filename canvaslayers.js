@@ -48,6 +48,7 @@ var CanvasLayers = {
 	DamagedRectManager: function(layer) {
 		this.layer = layer;
 		this.damagedRects = new Array();
+		this.supportsTransparency = true;
 	},
 	 
 	
@@ -169,21 +170,43 @@ CanvasLayers.DamagedRectManager.prototype.drawRects = function(layer, damagedRec
 			
 			remainingRects = new Array();
 			
-			// Get children to draw all parts of themselves that intersect the
-			// intersection we've found.
 			subRects.push(intersection);
 			
-			for (var j = layer.children.length() - 1; j >= 0; --j) {
-				this.drawRects(layer.children.at(j), subRects);
+			// Push the intersection back into the damaged rects array if the
+			// rect manager supports transparency.  This ensures that all
+			// layers that collide with this intersection draw themselves.
+			if (this.supportsTransparency) {
+				damagedRects.unshift(intersection);
+				i++;
 				
-				// Abort if all rects have been drawn
-				if (subRects.length == 0) break;
-			}
+				// Render the intersection
+				layer.render(intersection);
+				
+				// Get children to draw all parts of themselves that intersect the
+				// intersection we've found.
+				for (var j = 0; j < layer.children.length(); ++j) {
+					this.drawRects(layer.children.at(j), subRects);
+					
+					// Abort if all rects have been drawn
+					if (subRects.length == 0) break;
+				}
+				
+			} else {
 			
-			// Children have drawn themselves; anything left in the subRects
-			// array must overlap this layer
-			for (var j = 0; j < subRects.length; ++j) {
-				layer.render(subRects[j]);
+				// Get children to draw all parts of themselves that intersect the
+				// intersection we've found.
+				for (var j = layer.children.length() - 1; j >= 0; --j) {
+					this.drawRects(layer.children.at(j), subRects);
+					
+					// Abort if all rects have been drawn
+					if (subRects.length == 0) break;
+				}
+			
+				// Children have drawn themselves; anything left in the subRects
+				// array must overlap this layer
+				for (var j = 0; j < subRects.length; ++j) {
+					layer.render(subRects[j]);
+				}
 			}
 			
 			subRects = new Array();

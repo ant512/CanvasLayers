@@ -41,6 +41,8 @@ function init(canvasId) {
 	var layer3child2 = new CanvasLayers.Layer(rect.x, rect.y + 20, 100, 20);
 	layer3.children.add(layer3child2);
 	
+	layer1.raiseToTop();
+	
 	// Layer rendering methods
 	container.onRender = function(rect, context) {
 		context.save();
@@ -73,7 +75,7 @@ function init(canvasId) {
 		context.clip();
 		
 		context.fillStyle = '#00f';
-		context.fillRect(0, 0, 400, 400);
+		context.fillRect(layer1.getX() + 10, layer1.getY() + 10, layer1.getWidth(), layer1.getHeight());
 		context.closePath();
 		context.restore();
 	}
