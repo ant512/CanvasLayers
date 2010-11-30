@@ -19,7 +19,12 @@ var layer2dy = -1;
 var layer31dx = 1;
 var layer31dy = 2;
 
+var img;
+
 function init(canvasId) {
+	
+	img = new Image();
+	img.src = "mario.jpg";
 
 	// Layer setup
 	var canvas = document.getElementById(canvasId);
@@ -38,10 +43,10 @@ function init(canvasId) {
 	layer3.setPermeable(true);
 	container.children.add(layer3);
 	
-	layer3child1 = new CanvasLayers.Layer(0, 0, 100, 20);
+	layer3child1 = new CanvasLayers.Layer(0, 0, 60, 60);
 	layer3.children.add(layer3child1);
 		
-	var layer3child2 = new CanvasLayers.Layer(0, 20, 100, 20);
+	var layer3child2 = new CanvasLayers.Layer(0, 90, 200, 20);
 	layer3.children.add(layer3child2);
 	
 	layer1.raiseToTop();
@@ -97,11 +102,10 @@ function init(canvasId) {
 		context.rect(rect.x, rect.y, rect.width, rect.height);
 		context.clip();
 		
-		context.fillStyle = '#0ff';
-		context.fillRect(0, 0, 400, 400);
-		
 		context.strokeStyle = '#000'
-		context.strokeRect(layer.getX(), layer.getY(), layer.getWidth(), layer.getHeight())
+		context.strokeRect(layer.getX(), layer.getY(), layer.getWidth(), layer.getHeight());
+		
+		context.drawImage(img, 0, 0);
 		
 		context.closePath();
 		context.restore();
@@ -129,8 +133,8 @@ function init(canvasId) {
 		context.rect(rect.x, rect.y, rect.width, rect.height);
 		context.clip();
 		
-		context.fillStyle = '#f0f';
-		context.fillRect(0, 0, 400, 400);
+		context.drawImage(img, 250, 140, layer.getWidth(), layer.getHeight(), layer.getX(), layer.getY(), layer.getWidth(), layer.getHeight());
+		
 		context.closePath();
 		context.restore();
 	}
