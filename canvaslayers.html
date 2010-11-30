@@ -28,21 +28,20 @@ function init(canvasId) {
 	layer1 = new CanvasLayers.Layer(10, 60, 60, 60);
 	container.children.add(layer1);
 	
-	var rect = layer1.getClientRect();
-	var layer1child1 = new CanvasLayers.Layer(rect.x, rect.y, 30, 30);
+	var layer1child1 = new CanvasLayers.Layer(0, 0, 30, 30);
 	layer1.children.add(layer1child1);
 	
 	layer2 = new CanvasLayers.Layer(20, 20, 100, 100);
 	container.children.add(layer2);
 		
 	var layer3 = new CanvasLayers.Layer(50, 50, 200, 200);
+	layer3.setPermeable(true);
 	container.children.add(layer3);
 	
-	rect = layer3.getClientRect();
-	layer3child1 = new CanvasLayers.Layer(rect.x, rect.y, 100, 20);
+	layer3child1 = new CanvasLayers.Layer(0, 0, 100, 20);
 	layer3.children.add(layer3child1);
 		
-	var layer3child2 = new CanvasLayers.Layer(rect.x, rect.y + 20, 100, 20);
+	var layer3child2 = new CanvasLayers.Layer(0, 20, 100, 20);
 	layer3.children.add(layer3child2);
 	
 	layer1.raiseToTop();
@@ -182,15 +181,15 @@ function changeScene() {
 	
 	layer3child1.moveTo(layer3child1.rect.x + layer31dx, layer3child1.rect.y + layer31dy);
 	
-	if (layer3child1.rect.x + layer3child1.rect.width >= layer3child1.getParent().getWidth()) {
+	if (layer3child1.rect.x >= layer3child1.getParent().getWidth()) {
 		layer31dx = -1;
-	} else if (layer3child1.rect.x <= 0) {
+	} else if (layer3child1.rect.x <= -layer3child1.rect.width) {
 		layer31dx = 1;
 	}
 	
-	if (layer3child1.rect.y + layer3child1.rect.height >= layer3child1.getParent().getHeight()) {
+	if (layer3child1.rect.y >= layer3child1.getParent().getHeight()) {
 		layer31dy = -2;
-	} else if (layer3child1.rect.y <= 0) {
+	} else if (layer3child1.rect.y <= -layer3child1.rect.height) {
 		layer31dy = 2;
 	}
 	
