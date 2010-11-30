@@ -1,22 +1,17 @@
-CanvasUI
+CanvasLayers
 -----------------
 
-  CanvasUI is a small javascript library for creating simple user interfaces
-  with the HTML5 canvas tag.  Along side a complete API for creating new
-  interface widgets, it features the following pre-built widgets:
+  CanvasLayers is a small javascript library for adding layers to the HTML5
+  canvas tag.  Unlike other canvas layer libraries, which use a stack of
+  several canvas tags, only one canvas is used.
   
-   - Draggable windows
-   - Buttons
-   - List boxes
-  
-  See http://www.bitbucket.org/ant512/canvasui for more information.
+  See http://www.bitbucket.org/ant512/canvaslayers for more information.
   
 Requirements
 ------------
 
-  Any modern web browser (Safari, Chrome, anything webkit-based, Firefox, Opera)
-  except for IE (due to its lack of HTML5 features and broken javascript
-  support).
+  Any modern web browser (anything Webkit or Gecko-based, Opera, etc).  It even
+  works in IE9, but is very slow in that browser.
   
 The Author
 ----------
