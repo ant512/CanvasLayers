@@ -11,6 +11,7 @@ var CanvasLayers = {
 		this.parent = null;				// Parent layer
 		this.visible = true;			// Visible or hidden
 		this.canvas = null;				// Drawing space
+		this.permeable = false;			// True if children can exceed rect bounds
 		
 		this.rect = new CanvasLayers.Rectangle(x, y, width, height);
 		this.children = new CanvasLayers.LayerCollection(this);
@@ -138,13 +139,26 @@ CanvasLayers.DamagedRectManager.prototype.redraw = function() {
  * Redraws the specified list of damaged rects for the specified layer.  The
  * function will recursively call itself in order to draw the layer and its
  * children in such a way as to minimise redrawing.  The algorithm looks like
- * this:
+ * this for layer systems that do not support transparency:
  * - Work out which parts of the damagedRects array intersect the current
  *   layer and remove them from the damagedRects array.
  * - Recursively call the method for each of the layer's children, sending the
  *   intersecting regions as a new array.
  * - Receive back from children any undrawn areas in the new array.
- * - Redraw all rects in the new array.
+ * - Redraw all remaining rects in the new array.
+ * For layer systems that support transparency, the algorithm is slightly
+ * different:
+ * - Work out which parts of the damagedRects array intersect the current
+ *   layer.
+ * - Draw the intersecting parts of the current layer.
+ * - Recursively call the method for each of the layer's children, sending the
+ *   intersecting regions as a new array.
+ * The first version of the algorithm is therefore more efficient - each damaged
+ * rect is only drawn once.  In the second version, each damaged rect is drawn
+ * by each intersecting layer, from front to back.  We're basically using the
+ * painter algorithm to redraw a small subsection of the layer system.  This
+ * potentially means that a lot of redundant drawing is performed, but it is the
+ * only way to support transparency.
  * @param Layer The layer to redraw.
  * @param damagedRects An array of rectangles that must be redrawn.
  */
@@ -534,6 +548,32 @@ CanvasLayers.Layer.prototype.getY = function() {
 }
 
 /**
+ * Gets the layer's parent layer.
+ * @return The layer's parent layer, or null if the layer has no parent.
+ */
+CanvasLayers.Layer.prototype.getParent = function() {
+	return this.parent;
+}
+
+/**
+ * Gets a value indicating whether or not children can exceed the dimensions
+ * layer's borders.
+ * @return True if children can move beyond the borders of the layer.
+ */
+CanvasLayers.Layer.prototype.isPermeable = function() {
+	return this.permeable;
+}
+
+/**
+ * Sets the layer's permeable property.
+ * @property permeable The new permeable value.  Set to true to allow children
+ * to move beyond the borders of this parent layer.
+ */
+CanvasLayers.Layer.prototype.setPermeable = function(permeable) {
+	this.permeable = permeable;
+}
+
+/**
  * Gets the width of the layer.
  * @return The width of the layer.
  */
@@ -776,6 +816,7 @@ CanvasLayers.Layer.prototype.checkPointCollision = function(x, y) {
  * @return The minimum x co-ordinte available to a child layer.
  */
 CanvasLayers.Layer.prototype.getMinChildX = function() {
+	if (this.permeable) return -Number.MAX_VALUE;
 	return 0;
 }
 
@@ -784,6 +825,7 @@ CanvasLayers.Layer.prototype.getMinChildX = function() {
  * @return The minimum y co-ordinte available to a child layer.
  */
 CanvasLayers.Layer.prototype.getMinChildY = function() {
+	if (this.permeable) return -Number.MAX_VALUE;
 	return 0;
 }
 
@@ -792,6 +834,7 @@ CanvasLayers.Layer.prototype.getMinChildY = function() {
  * @return The maximum x co-ordinte available to a child layer.
  */
 CanvasLayers.Layer.prototype.getMaxChildX = function() {
+	if (this.permeable) return Number.MAX_VALUE;
 	return this.rect.width - 1;
 }
 
@@ -800,6 +843,7 @@ CanvasLayers.Layer.prototype.getMaxChildX = function() {
  * @return The maximum y co-ordinte available to a child layer.
  */
 CanvasLayers.Layer.prototype.getMaxChildY = function() {
+	if (this.permeable) return Number.MAX_VALUE;
 	return this.rect.height - 1;
 }
 
