@@ -714,7 +714,7 @@ CanvasLayers.Layer.prototype.close = function() {
 CanvasLayers.Layer.prototype.render = function(rect) {
 	if (!this.isVisible()) return;
 	
-	if (this.onRender != null) this.onRender(rect, this.getCanvas().getContext("2d"));
+	if (this.onRender != null) this.onRender(this, rect, this.getCanvas().getContext("2d"));
 	
 	// Enable this to draw rects around all clipping regions
 	/*
@@ -889,6 +889,28 @@ CanvasLayers.Layer.prototype.lowerToBottom = function() {
  */
 CanvasLayers.Layer.prototype.lowerChildToBottom = function(child) {
 	this.children.lowerToBottom(child);
+}
+
+/**
+ * Gets the layer at the specified co-ordinates.
+ * @param x The x co-ordinate to check.
+ * @param y The y co-ordinate to check.
+ * @return The layer at the specified co-ordinates, or null if no layer is found.
+ */
+CanvasLayers.Layer.prototype.getLayerAt = function(x, y) {
+	if (this.checkPointCollision(x, y)) {
+		var layer = null;
+		
+		for (var i in this.children) {
+			layer = this.children[i].getLayerAt(x, y);
+			
+			if (layer) return layer;
+		}
+		
+		return this;
+	}
+	
+	return null;
 }
 
 

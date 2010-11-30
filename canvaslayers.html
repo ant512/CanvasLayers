@@ -44,7 +44,7 @@ function init(canvasId) {
 	layer1.raiseToTop();
 	
 	// Layer rendering methods
-	container.onRender = function(rect, context) {
+	container.onRender = function(layer, rect, context) {
 		context.save();
 		context.beginPath();
 		context.rect(rect.x, rect.y, rect.width, rect.height);
@@ -56,7 +56,7 @@ function init(canvasId) {
 		context.restore();
 	}
 	
-	layer1child1.onRender = function(rect, context) {
+	layer1child1.onRender = function(layer, rect, context) {
 		context.save();
 		context.beginPath();
 		context.rect(rect.x, rect.y, rect.width, rect.height);
@@ -64,23 +64,31 @@ function init(canvasId) {
 		
 		context.fillStyle = '#0f0';
 		context.fillRect(0, 0, 400, 400);
+		
+		context.strokeStyle = '#000'
+		context.strokeRect(layer.getX(), layer.getY(), layer.getWidth(), layer.getHeight())
+		
 		context.closePath();
 		context.restore();
 	}
 	
-	layer1.onRender = function(rect, context) {
+	layer1.onRender = function(layer, rect, context) {
 		context.save();
 		context.beginPath();
 		context.rect(rect.x, rect.y, rect.width, rect.height);
 		context.clip();
 		
 		context.fillStyle = 'rgba(10, 10, 10, 0.5)';
-		context.fillRect(layer1.getX() + 10, layer1.getY() + 10, layer1.getWidth(), layer1.getHeight());
+		context.fillRect(layer.getX() + 10, layer.getY() + 10, layer.getWidth(), layer.getHeight());
+		
+		context.strokeStyle = '#000'
+		context.strokeRect(layer.getX(), layer.getY(), layer.getWidth(), layer.getHeight())
+		
 		context.closePath();
 		context.restore();
 	}
 	
-	layer2.onRender = function(rect, context) {
+	layer2.onRender = function(layer, rect, context) {
 		context.save();
 		context.beginPath();
 		context.rect(rect.x, rect.y, rect.width, rect.height);
@@ -88,11 +96,15 @@ function init(canvasId) {
 		
 		context.fillStyle = '#0ff';
 		context.fillRect(0, 0, 400, 400);
+		
+		context.strokeStyle = '#000'
+		context.strokeRect(layer.getX(), layer.getY(), layer.getWidth(), layer.getHeight())
+		
 		context.closePath();
 		context.restore();
 	}
 	
-	layer3.onRender = function(rect, context) {
+	layer3.onRender = function(layer, rect, context) {
 		context.save();
 		context.beginPath();
 		context.rect(rect.x, rect.y, rect.width, rect.height);
@@ -100,11 +112,15 @@ function init(canvasId) {
 		
 		context.fillStyle = '#ff0';
 		context.fillRect(0, 0, 400, 400);
+		
+		context.strokeStyle = '#000'
+		context.strokeRect(layer.getX(), layer.getY(), layer.getWidth(), layer.getHeight())
+		
 		context.closePath();
 		context.restore();
 	}
 	
-	layer3child1.onRender = function(rect, context) {
+	layer3child1.onRender = function(layer, rect, context) {
 		context.save();
 		context.beginPath();
 		context.rect(rect.x, rect.y, rect.width, rect.height);
@@ -116,7 +132,7 @@ function init(canvasId) {
 		context.restore();
 	}
 	
-	layer3child2.onRender = function(rect, context) {
+	layer3child2.onRender = function(layer, rect, context) {
 		context.save();
 		context.beginPath();
 		context.rect(rect.x, rect.y, rect.width, rect.height);
