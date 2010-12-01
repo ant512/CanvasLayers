@@ -126,13 +126,16 @@ CanvasLayers.DamagedRectManager.prototype.addDamagedRect = function(rect) {
 
 			if (intersection) {
 			
-				// Intersection contains the part of the new rect that is already known to be damaged
-				// and can be discarded.  remainingRects contains the rects that still need to be examined
+				// Intersection contains the part of the new rect that is
+				// already known to be damaged and can be discarded.
+				// remainingRects contains the rects that still need to be
+				// examined
 				newRects.splice(j, 1);
 				j--;
 
-				// Insert non-overlapping rects to the front of the array so that they are not
-				// examined again for this particular damaged rect
+				// Insert non-overlapping rects to the front of the array so
+				// that they are not examined again for this particular damaged
+				// rect
 				for (var k = 0; k < remainingRects.length; ++k) {
 				
 					newRects.unshift(remainingRects[k]);
@@ -226,8 +229,8 @@ CanvasLayers.DamagedRectManager.prototype.drawRects = function(layer, damagedRec
 				// Render the intersection
 				layer.render(intersection);
 				
-				// Get children to draw all parts of themselves that intersect the
-				// intersection we've found.
+				// Get children to draw all parts of themselves that intersect
+				// the intersection we've found.
 				for (var j = 0; j < layer.children.length(); ++j) {
 					this.drawRects(layer.children.at(j), subRects);
 					
@@ -237,8 +240,8 @@ CanvasLayers.DamagedRectManager.prototype.drawRects = function(layer, damagedRec
 				
 			} else {
 			
-				// Get children to draw all parts of themselves that intersect the
-				// intersection we've found.
+				// Get children to draw all parts of themselves that intersect
+				// the intersection we've found.
 				for (var j = layer.children.length() - 1; j >= 0; --j) {
 					this.drawRects(layer.children.at(j), subRects);
 					
@@ -972,7 +975,8 @@ CanvasLayers.Layer.prototype.lowerChildToBottom = function(child) {
  * Gets the layer at the specified co-ordinates.
  * @param x The x co-ordinate to check.
  * @param y The y co-ordinate to check.
- * @return The layer at the specified co-ordinates, or null if no layer is found.
+ * @return The layer at the specified co-ordinates, or null if no layer is
+ * found.
  */
 CanvasLayers.Layer.prototype.getLayerAt = function(x, y) {
 	if (this.checkPointCollision(x, y)) {
