@@ -742,6 +742,37 @@ CanvasLayers.Layer.prototype.markRectsDamaged = function() {
 }
 
 /**
+ * Sends the visible portions of the specified rect to the damaged rectangle
+ * manager for redraw.  Can be called instead of markDamagedRects() if a small
+ * portion of the layer needs to be redrawn.
+ * @param rect The rect to redraw.  It will be clipped to the visible portion of
+ * the layer as appropriate.
+ */
+CanvasLayers.Layer.prototype.markRectDamaged = function(rect) {
+	var visibleRects = this.getVisibleRects();
+	
+	// Work out which areas of the rect intersect the visible portion of the
+	// layer
+	var damagedRects = new Array();
+	
+	for (var i in damagedRects) {
+		var intersect = rect.splitIntersection(visibleRects[i], new Array());
+		if (intersect) {
+			damagedRects.push(intersect);
+		}
+	}
+	
+	// Send all damaged rects to the manager
+	var damagedRectManager = this.getDamagedRectManager();
+
+	if (!damagedRectManager) return;
+	
+	for (var i in damagedRects) {
+		damagedRectManager.addDamagedRect(damagedRects[i]);
+	}
+}
+
+/**
  * Gets a list of the layer's visible rectangles.  These are the portions of
  * the layer not overlapped by other layers.  If the layer is totally
  * obscured an empty array is returned.
