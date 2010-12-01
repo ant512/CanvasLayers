@@ -230,8 +230,8 @@ CanvasLayers.DamagedRectManager.prototype.drawRects = function(layer, damagedRec
 				
 				// Get children to draw all parts of themselves that intersect
 				// the intersection we've found.
-				for (var j = 0; j < layer.children.length(); ++j) {
-					this.drawRects(layer.children.at(j), subRects);
+				for (var j = 0; j < layer.getChildren().length(); ++j) {
+					this.drawRects(layer.getChildren().at(j), subRects);
 					
 					// Abort if all rects have been drawn
 					if (subRects.length == 0) break;
@@ -241,8 +241,8 @@ CanvasLayers.DamagedRectManager.prototype.drawRects = function(layer, damagedRec
 			
 				// Get children to draw all parts of themselves that intersect
 				// the intersection we've found.
-				for (var j = layer.children.length() - 1; j >= 0; --j) {
-					this.drawRects(layer.children.at(j), subRects);
+				for (var j = layer.getChildren().length() - 1; j >= 0; --j) {
+					this.drawRects(layer.getChildren().at(j), subRects);
 					
 					// Abort if all rects have been drawn
 					if (subRects.length == 0) break;
@@ -460,7 +460,7 @@ CanvasLayers.Rectangle.prototype.splitIntersection = function(rect, remainderRec
  * @param layer The layer to add to the collection.
  */
 CanvasLayers.LayerCollection.prototype.add = function(layer) {
-	layer.parent = this.layer;
+	layer.setParent(this.layer);
 	this.list.push(layer);
 	
 	layer.markRectsDamaged();
@@ -471,7 +471,7 @@ CanvasLayers.LayerCollection.prototype.add = function(layer) {
  * @param layer The layer to insert into the collection.
  */
 CanvasLayers.LayerCollection.prototype.insert = function(layer) {
-	layer.parent = this.layer;
+	layer.setParent(this.layer);
 	this.list.splice(0, 0, layer);
 
 	layer.markRectsDamaged();	
@@ -489,7 +489,7 @@ CanvasLayers.LayerCollection.prototype.remove = function(layer) {
 	
 	layer.markRectsDamaged();
 	
-	layer.parent = null;
+	layer.setParent(null);
 }
 
 /**
@@ -553,7 +553,7 @@ CanvasLayers.LayerCollection.prototype.getLayerIndex = function(layer) {
  */
 CanvasLayers.Layer.prototype.getX = function() {
 	if (this.parent != null) {
-		return this.rect.x + this.parent.getX();
+		return this.rect.x + this.getParent().getX();
 	}
 	
 	return this.rect.x;
@@ -565,7 +565,7 @@ CanvasLayers.Layer.prototype.getX = function() {
  */
 CanvasLayers.Layer.prototype.getY = function() {
 	if (this.parent != null) {
-		return this.rect.y + this.parent.getY();
+		return this.rect.y + this.getParent().getY();
 	}
 	
 	return this.rect.y;
@@ -577,6 +577,14 @@ CanvasLayers.Layer.prototype.getY = function() {
  */
 CanvasLayers.Layer.prototype.getParent = function() {
 	return this.parent;
+}
+
+/**
+ * Sets the layer's parent layer.
+ * @param parent The new parent layer.
+ */
+CanvasLayers.Layer.prototype.setParent = function(parent) {
+	this.parent = parent;
 }
 
 /**
@@ -595,6 +603,14 @@ CanvasLayers.Layer.prototype.isPermeable = function() {
  */
 CanvasLayers.Layer.prototype.setPermeable = function(permeable) {
 	this.permeable = permeable;
+}
+
+/**
+ * Gets the list of child layers.
+ * @return A LayerCollection containing the layer's children.
+ */
+CanvasLayers.Layer.prototype.getChildren = function() {
+	return this.children;
 }
 
 /**
@@ -640,7 +656,7 @@ CanvasLayers.Layer.prototype.getRectClippedToHierarchy = function() {
 
 		// Send up to parent
 		layer = parent;
-		parent = parent.parent;
+		parent = parent.getParent();
 	}
 	
 	return rect;
@@ -719,17 +735,17 @@ CanvasLayers.Layer.prototype.getVisibleRects = function() {
 
 		// Locate layer in the list; we add one to the index to
 		// ensure that we deal with the next layer up in the z-order
-		var layerIndex = parseInt(parent.children.getLayerIndex(layer)) + 1;
+		var layerIndex = parseInt(parent.getChildren().getLayerIndex(layer)) + 1;
 
 		// Layer should never be the bottom item on the screen
 		if (layerIndex > 0) {
 
 			// Remove any overlapped rectangles
-			for (var i = layerIndex; i < parent.children.length(); i++) {
+			for (var i = layerIndex; i < parent.getChildren().length(); i++) {
 				for (var j = 0; j < visibleRects.length; ++j) {
 					var remainingRects = new Array();
 					
-					var child = parent.children.at(i);
+					var child = parent.getChildren().at(i);
 					var childRect = new CanvasLayers.Rectangle(child.getX(), child.getY(), child.getWidth(), child.getHeight());
 					
 					if (childRect.splitIntersection(visibleRects[j], remainingRects)) {
@@ -752,7 +768,7 @@ CanvasLayers.Layer.prototype.getVisibleRects = function() {
 			layer = parent;
 
 			if (parent) {
-				parent = parent.parent;
+				parent = parent.getParent();
 			}
 		} else {
 			return visibleRects;
@@ -767,7 +783,7 @@ CanvasLayers.Layer.prototype.getVisibleRects = function() {
  */
 CanvasLayers.Layer.prototype.close = function() {
 	if (this.parent != null) {
-		this.parent.children.remove(this);
+		this.parent.getChildren().remove(this);
 	}
 }
 
