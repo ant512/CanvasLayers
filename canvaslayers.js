@@ -744,7 +744,8 @@ CanvasLayers.Layer.prototype.markRectsDamaged = function() {
 /**
  * Sends the visible portions of the specified rect to the damaged rectangle
  * manager for redraw.  Can be called instead of markDamagedRects() if a small
- * portion of the layer needs to be redrawn.
+ * portion of the layer needs to be redrawn.  The rect's co-ordinates should
+ * be relative to the layer.
  * @param rect The rect to redraw.  It will be clipped to the visible portion of
  * the layer as appropriate.
  */
@@ -755,8 +756,11 @@ CanvasLayers.Layer.prototype.markRectDamaged = function(rect) {
 	// layer
 	var damagedRects = new Array();
 	
+	// Convert the rect to the absolute position
+	absoluteRect = new CanvasLayers.Rectangle(rect.x + this.getX(), rect.y + this.getY(), rect.width, rect.height);
+	
 	for (var i in damagedRects) {
-		var intersect = rect.splitIntersection(visibleRects[i], new Array());
+		var intersect = absoluteRect.splitIntersection(visibleRects[i], new Array());
 		if (intersect) {
 			damagedRects.push(intersect);
 		}
