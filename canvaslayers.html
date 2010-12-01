@@ -19,12 +19,7 @@ var layer2dy = -1;
 var layer31dx = 1;
 var layer31dy = 2;
 
-var img;
-
 function init(canvasId) {
-	
-	img = new Image();
-	img.src = "mario.jpg";
 
 	// Layer setup
 	var canvas = document.getElementById(canvasId);
@@ -53,102 +48,50 @@ function init(canvasId) {
 	
 	// Layer rendering methods
 	container.onRender = function(layer, rect, context) {
-		context.save();
-		context.beginPath();
-		context.rect(rect.x, rect.y, rect.width, rect.height);
-		context.clip();
-		
 		context.fillStyle = '#fff';
 		context.fillRect(0, 0, 400, 400);
-		context.closePath();
-		context.restore();
 	}
 	
 	layer1child1.onRender = function(layer, rect, context) {
-		context.save();
-		context.beginPath();
-		context.rect(rect.x, rect.y, rect.width, rect.height);
-		context.clip();
-		
 		context.fillStyle = '#0f0';
 		context.fillRect(0, 0, 400, 400);
 		
 		context.strokeStyle = '#000'
 		context.strokeRect(layer.getX(), layer.getY(), layer.getWidth(), layer.getHeight())
-		
-		context.closePath();
-		context.restore();
 	}
 	
 	layer1.onRender = function(layer, rect, context) {
-		context.save();
-		context.beginPath();
-		context.rect(rect.x, rect.y, rect.width, rect.height);
-		context.clip();
-		
 		context.fillStyle = 'rgba(10, 10, 10, 0.5)';
 		context.fillRect(layer.getX() + 10, layer.getY() + 10, layer.getWidth(), layer.getHeight());
 		
 		context.strokeStyle = '#000'
 		context.strokeRect(layer.getX(), layer.getY(), layer.getWidth(), layer.getHeight())
-		
-		context.closePath();
-		context.restore();
 	}
 	
 	layer2.onRender = function(layer, rect, context) {
-		context.save();
-		context.beginPath();
-		context.rect(rect.x, rect.y, rect.width, rect.height);
-		context.clip();
-		
 		context.strokeStyle = '#000'
 		context.strokeRect(layer.getX(), layer.getY(), layer.getWidth(), layer.getHeight());
 		
-		context.drawImage(img, 0, 0);
-		
-		context.closePath();
-		context.restore();
+		context.fillStyle = '#00f';
+		context.fillRect(0, 0, 400, 400);
 	}
 	
 	layer3.onRender = function(layer, rect, context) {
-		context.save();
-		context.beginPath();
-		context.rect(rect.x, rect.y, rect.width, rect.height);
-		context.clip();
-		
 		context.fillStyle = '#ff0';
 		context.fillRect(0, 0, 400, 400);
 		
 		context.strokeStyle = '#000'
 		context.strokeRect(layer.getX(), layer.getY(), layer.getWidth(), layer.getHeight())
-		
-		context.closePath();
-		context.restore();
 	}
 	
 	layer3child1.onRender = function(layer, rect, context) {
-		context.save();
-		context.beginPath();
-		context.rect(rect.x, rect.y, rect.width, rect.height);
-		context.clip();
-		
-		context.drawImage(img, 250, 140, layer.getWidth(), layer.getHeight(), layer.getX(), layer.getY(), layer.getWidth(), layer.getHeight());
-		
-		context.closePath();
-		context.restore();
+		context.fillStyle = '#0ff';
+		context.fillRect(0, 0, 400, 400);
 	}
 	
 	layer3child2.onRender = function(layer, rect, context) {
-		context.save();
-		context.beginPath();
-		context.rect(rect.x, rect.y, rect.width, rect.height);
-		context.clip();
-		
 		context.fillStyle = '#f00';
 		context.fillRect(0, 0, 400, 400);
-		context.closePath();
-		context.restore();
 	}
 	
 	timer = setInterval("changeScene()", 10);

@@ -776,21 +776,32 @@ CanvasLayers.Layer.prototype.close = function() {
 CanvasLayers.Layer.prototype.render = function(rect) {
 	if (!this.isVisible()) return;
 	
-	if (this.onRender != null) this.onRender(this, rect, this.getCanvas().getContext("2d"));
+	var context = this.getCanvas().getContext("2d");
+	
+	// Set up the clipping region
+	context.save();
+	context.beginPath();
+	context.rect(rect.x, rect.y, rect.width, rect.height);
+	context.clip();
+	
+	// Call user rendering code
+	if (this.onRender != null) this.onRender(this, rect, context);
+	
+	// Restore previous canvas state
+	context.closePath();
+	context.restore();
 	
 	// Enable this to draw rects around all clipping regions
 	/*
-	var ctx = this.getCanvas().getContext("2d");
+	context.save();
+	context.beginPath();
+	context.rect(0, 0, 400, 400);
+	context.clip();
 	
-	ctx.save();
-	ctx.beginPath();
-	ctx.rect(0, 0, 400, 400);
-	ctx.clip();
-	
-	ctx.strokeStyle = '#f00';
-	ctx.strokeRect(rect.x, rect.y, rect.width, rect.height);
-	ctx.closePath();
-	ctx.restore();
+	context.strokeStyle = '#f00';
+	context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+	context.closePath();
+	context.restore();
 	*/
 }
 
