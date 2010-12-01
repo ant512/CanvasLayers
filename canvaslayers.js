@@ -103,7 +103,6 @@ var CanvasLayers = {
 }
 
 
-
 /** DamagedRectManager Methods **/
 
 /**
@@ -982,8 +981,8 @@ CanvasLayers.Layer.prototype.getLayerAt = function(x, y) {
 	if (this.checkPointCollision(x, y)) {
 		var layer = null;
 		
-		for (var i in this.children) {
-			layer = this.children[i].getLayerAt(x, y);
+		for (var i = 0; i < this.children.length(); ++i) {
+			layer = this.children.at(i).getLayerAt(x, y);
 			
 			if (layer) return layer;
 		}
