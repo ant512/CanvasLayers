@@ -548,7 +548,8 @@ CanvasLayers.LayerCollection.prototype.getLayerIndex = function(layer) {
 /** Layer Methods **/
 
 /**
- * Gets the x co-ordinate of the layer relative to the top-level layer.
+ * Gets the absolute x co-ordinate of the layer (ie. relative to the top-level
+ * layer).
  * @return The x co-ordinate of the layer relative to the top-level layer.
  */
 CanvasLayers.Layer.prototype.getX = function() {
@@ -560,7 +561,8 @@ CanvasLayers.Layer.prototype.getX = function() {
 }
 
 /**
- * Gets the y co-ordnate of the layer relative to the top-level layer.
+ * Gets the absolute y co-ordinate of the layer (ie. relative to the top-level
+ * layer).
  * @return The y co-ordinate of the layer relative to the top-level layer.
  */
 CanvasLayers.Layer.prototype.getY = function() {
@@ -568,6 +570,22 @@ CanvasLayers.Layer.prototype.getY = function() {
 		return this.rect.y + this.getParent().getY();
 	}
 	
+	return this.rect.y;
+}
+
+/**
+ * Gets the x co-ordinate of the layer relative to its parent.
+ * @return The x co-ordinate of the layer relative to its parent.
+ */
+CanvasLayers.Layer.prototype.getRelativeX = function() {
+	return this.rect.x;
+}
+
+/**
+ * Gets the y co-ordinate of the layer relative to its parent.
+ * @return The y co-ordinate of the layer relative to its parent.
+ */
+CanvasLayers.Layer.prototype.getRelativeY = function() {
 	return this.rect.y;
 }
 
@@ -585,6 +603,14 @@ CanvasLayers.Layer.prototype.getParent = function() {
  */
 CanvasLayers.Layer.prototype.setParent = function(parent) {
 	this.parent = parent;
+}
+
+/**
+ * Gets the layer's rect
+ * @return The layer's Rect object.
+ */
+CanvasLayers.Layer.prototype.getRect = function() {
+	return this.rect;
 }
 
 /**
@@ -650,7 +676,7 @@ CanvasLayers.Layer.prototype.getRectClippedToHierarchy = function() {
 	while (parent) {
 
 		// Copy parent's properties into the rect
-		var parentRect = parent.rect;
+		var parentRect = parent.getRect();
 
 		rect.clipToIntersect(parentRect);
 

@@ -98,45 +98,45 @@ function init(canvasId) {
 }
 
 function changeScene() {
-	layer1.moveTo(layer1.rect.x + layer1dx, layer1.rect.y + layer1dy);
+	layer1.moveTo(layer1.getRelativeX() + layer1dx, layer1.getRelativeY() + layer1dy);
 	
-	if (layer1.rect.x + layer1.rect.width >= container.getWidth()) {
+	if (layer1.getRelativeX() + layer1.getWidth() >= container.getWidth()) {
 		layer1dx = -1;
-	} else if (layer1.rect.x <= 0) {
+	} else if (layer1.getRelativeX() <= 0) {
 		layer1dx = 1;
 	}
 	
-	if (layer1.rect.y + layer1.rect.height >= container.getHeight()) {
+	if (layer1.getRelativeY() + layer1.getHeight() >= container.getHeight()) {
 		layer1dy = -2;
-	} else if (layer1.rect.y <= 0) {
+	} else if (layer1.getRelativeY() <= 0) {
 		layer1dy = 2;
 	}
 	
-	layer2.moveTo(layer2.rect.x + layer2dx, layer2.rect.y + layer2dy);
+	layer2.moveTo(layer2.getRelativeX() + layer2dx, layer2.getRelativeY() + layer2dy);
 	
-	if (layer2.rect.x + layer2.rect.width >= container.getWidth()) {
+	if (layer2.getRelativeX() + layer2.getWidth() >= container.getWidth()) {
 		layer2dx = -2;
-	} else if (layer2.rect.x <= 0) {
+	} else if (layer2.getRelativeX() <= 0) {
 			layer2dx = 2;
 		}
 	
-	if (layer2.rect.y + layer2.rect.height >= container.getHeight()) {
+	if (layer2.getRelativeY() + layer2.getHeight() >= container.getHeight()) {
 		layer2dy = -1;
-	} else if (layer2.rect.y <= 0) {
+	} else if (layer2.getRelativeY() <= 0) {
 		layer2dy = 1;
 	}
 	
-	layer3child1.moveTo(layer3child1.rect.x + layer31dx, layer3child1.rect.y + layer31dy);
+	layer3child1.moveTo(layer3child1.getRelativeX() + layer31dx, layer3child1.getRelativeY() + layer31dy);
 	
-	if (layer3child1.rect.x >= layer3child1.getParent().getWidth()) {
+	if (layer3child1.getRelativeX() >= layer3child1.getParent().getWidth()) {
 		layer31dx = -1;
-	} else if (layer3child1.rect.x <= -layer3child1.rect.width) {
+	} else if (layer3child1.getRelativeX() <= -layer3child1.getWidth()) {
 		layer31dx = 1;
 	}
 	
-	if (layer3child1.rect.y >= layer3child1.getParent().getHeight()) {
+	if (layer3child1.getRelativeY() >= layer3child1.getParent().getHeight()) {
 		layer31dy = -2;
-	} else if (layer3child1.rect.y <= -layer3child1.rect.height) {
+	} else if (layer3child1.getRelativeY() <= -layer3child1.getHeight()) {
 		layer31dy = 2;
 	}
 	
