@@ -984,6 +984,29 @@ CanvasLayers.Layer.prototype.moveTo = function(x, y) {
 }
 
 /**
+ * Resize the layer to the specified size.
+ * @param width The new width of the layer.
+ * @param height The new height of the layer.
+ */
+CanvasLayers.Layer.prototype.resize = function(width, height) {
+	this.hide();
+	
+	// Prevent exceeding size of parent
+	if (this.parent != null) {
+		var maxWidth = this.parent.getMaxChildX() - this.rect.x + 1;
+		var maxHeight = this.parent.getMaxChildY() - this.rect.y + 1;
+		
+		if (width > maxWidth) width = maxWidth;
+		if (height > maxHeight) height = maxHeight;
+	}
+	
+	this.rect.width = width;
+	this.rect.height = height;
+	
+	this.show();
+}
+
+/**
  * Hides the layer if it is visible.
  */
 CanvasLayers.Layer.prototype.hide = function() {
