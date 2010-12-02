@@ -885,6 +885,15 @@ CanvasLayers.Layer.prototype.render = function(rect) {
 }
 
 /**
+ * Check if this layer collides with the supplied layer.
+ * @param layer The layer to check for collisions.
+ * @return True if a collision has occurred.
+ */
+CanvasLayers.Layer.prototype.checkLayerCollision = function(layer) {
+	return this.checkRectCollision(layer.getRect());
+}
+
+/**
  * Check if this layer collides with the supplied rectangle.
  * @param rect The rectangle to check for collisions.
  * @return True if a collision has occurred.
