@@ -759,7 +759,7 @@ CanvasLayers.Layer.prototype.markRectDamaged = function(rect) {
 	// Convert the rect to the absolute position
 	absoluteRect = new CanvasLayers.Rectangle(rect.x + this.getX(), rect.y + this.getY(), rect.width, rect.height);
 	
-	for (var i in damagedRects) {
+	for (var i in visibleRects) {
 		var intersect = absoluteRect.splitIntersection(visibleRects[i], new Array());
 		if (intersect) {
 			damagedRects.push(intersect);
