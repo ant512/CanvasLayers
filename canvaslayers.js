@@ -995,20 +995,25 @@ CanvasLayers.Layer.prototype.getMaxChildY = function() {
  */
 CanvasLayers.Layer.prototype.moveTo = function(x, y) {
 
-	this.hide();
-
 	// Prevent moving outside parent
 	if (this.parent != null) {
-		var minX = this.parent.getMinChildX();
-		var maxX = this.parent.getMaxChildX() - this.rect.width + 1;
-		var minY = this.parent.getMinChildY();
-		var maxY = this.parent.getMaxChildY() - this.rect.height + 1;
-		
-		if (x < minX) x = minX;
-		if (x > maxX) x = maxX;
-		if (y < minY) y = minY;
-		if (y > maxY) y = maxY;
+		if (!this.parent.isPermeable()) {
+			var minX = this.parent.getMinChildX();
+			var maxX = this.parent.getMaxChildX() - this.rect.width + 1;
+			var minY = this.parent.getMinChildY();
+			var maxY = this.parent.getMaxChildY() - this.rect.height + 1;
+			
+			if (x < minX) x = minX;
+			if (x > maxX) x = maxX;
+			if (y < minY) y = minY;
+			if (y > maxY) y = maxY;
+		}
 	}
+	
+	// Stop if no moving occurs
+	if (this.rect.x == x && this.rect.y == y) return;
+	
+	this.hide();
 	
 	this.rect.x = x;
 	this.rect.y = y;
@@ -1022,16 +1027,22 @@ CanvasLayers.Layer.prototype.moveTo = function(x, y) {
  * @param height The new height of the layer.
  */
 CanvasLayers.Layer.prototype.resize = function(width, height) {
-	this.hide();
-	
+
 	// Prevent exceeding size of parent
 	if (this.parent != null) {
-		var maxWidth = this.parent.getMaxChildX() - this.rect.x + 1;
-		var maxHeight = this.parent.getMaxChildY() - this.rect.y + 1;
-		
-		if (width > maxWidth) width = maxWidth;
-		if (height > maxHeight) height = maxHeight;
+		if (!this.parent.isPermeable()) {
+			var maxWidth = this.parent.getMaxChildX() - this.rect.x + 1;
+			var maxHeight = this.parent.getMaxChildY() - this.rect.y + 1;
+			
+			if (width > maxWidth) width = maxWidth;
+			if (height > maxHeight) height = maxHeight;
+		}
 	}
+	
+	// Stop if dimensions remain the same
+	if (this.rect.width == width && this.rect.height == height) return;
+	
+	this.hide();
 	
 	this.rect.width = width;
 	this.rect.height = height;
