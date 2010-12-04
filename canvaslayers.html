@@ -57,23 +57,23 @@ function init(canvasId) {
 		context.fillRect(0, 0, 400, 400);
 		
 		context.strokeStyle = '#000'
-		context.strokeRect(layer.getX(), layer.getY(), layer.getWidth(), layer.getHeight())
+		context.strokeRect(0, 0, layer.getWidth(), layer.getHeight())
 	}
 	
 	layer1.onRender = function(layer, rect, context) {
 		context.fillStyle = 'rgba(10, 10, 10, 0.5)';
-		context.fillRect(layer.getX() + 10, layer.getY() + 10, layer.getWidth(), layer.getHeight());
+		context.fillRect(10, 10, layer.getWidth(), layer.getHeight());
 		
 		context.strokeStyle = '#000'
-		context.strokeRect(layer.getX(), layer.getY(), layer.getWidth(), layer.getHeight())
+		context.strokeRect(0, 0, layer.getWidth(), layer.getHeight())
 	}
 	
 	layer2.onRender = function(layer, rect, context) {
 		context.strokeStyle = '#000'
-		context.strokeRect(layer.getX(), layer.getY(), layer.getWidth(), layer.getHeight());
+		context.strokeRect(0, 0, layer.getWidth(), layer.getHeight());
 		
 		context.fillStyle = '#00f';
-		context.fillRect(0, 0, 400, 400);
+		context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
 	}
 	
 	layer3.onRender = function(layer, rect, context) {
@@ -81,17 +81,17 @@ function init(canvasId) {
 		context.fillRect(0, 0, 400, 400);
 		
 		context.strokeStyle = '#000'
-		context.strokeRect(layer.getX(), layer.getY(), layer.getWidth(), layer.getHeight())
+		context.strokeRect(0, 0, layer.getWidth(), layer.getHeight())
 	}
 	
 	layer3child1.onRender = function(layer, rect, context) {
 		context.fillStyle = '#0ff';
-		context.fillRect(0, 0, 400, 400);
+		context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
 	}
 	
 	layer3child2.onRender = function(layer, rect, context) {
 		context.fillStyle = '#f00';
-		context.fillRect(0, 0, 400, 400);
+		context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
 	}
 	
 	timer = setInterval("changeScene()", 10);
