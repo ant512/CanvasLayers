@@ -157,6 +157,7 @@ CanvasLayers.DamagedRectManager.prototype.addDamagedRect = function(rect) {
  */
 CanvasLayers.DamagedRectManager.prototype.redraw = function() {
 	this.drawRects(this.layer, this.damagedRects);
+	this.damagedRects = new Array();
 }
 
 /**
@@ -730,14 +731,23 @@ CanvasLayers.Layer.prototype.getDamagedRectManager = function() {
  * layer should change.
  */
 CanvasLayers.Layer.prototype.markRectsDamaged = function() {
-	var damagedRects = this.getVisibleRects();
-	
 	var damagedRectManager = this.getDamagedRectManager();
 
 	if (!damagedRectManager) return;
 	
-	for (var i in damagedRects) {
-		damagedRectManager.addDamagedRect(damagedRects[i]);
+	if (damagedRectManager.supportsTransparency) {
+	
+		// We are supporting transparency, so we need to mark the entire layer
+		// as damaged
+		damagedRectManager.addDamagedRect(this.getRectClippedToHierarchy());
+	} else {
+		// We are not supporting transparency, so we mark the visible regions
+		// as damaged.
+		var damagedRects = this.getVisibleRects();
+	
+		for (var i in damagedRects) {
+			damagedRectManager.addDamagedRect(damagedRects[i]);
+		}
 	}
 }
 
@@ -750,14 +760,28 @@ CanvasLayers.Layer.prototype.markRectsDamaged = function() {
  * the layer as appropriate.
  */
 CanvasLayers.Layer.prototype.markRectDamaged = function(rect) {
-	var visibleRects = this.getVisibleRects();
+	var visibleRects;
+	var damagedRectManager = this.getDamagedRectManager();
+	
+	if (!damagedRectManager) return;
+		
+	// If we are supporting transparency, we need to redraw the portions of the
+	// rect that overlap any part of this layer.  If not, we only need to
+	// redraw the portions of the rect that overlap the visible regions of the
+	// rect
+	if (damagedRectManager.supportsTransparency) {
+		visibleRects = new Array();
+		visibleRects.push(this.rect);
+	} else {
+		visibleRects = this.getVisibleRects();
+	}
+	
+	// Convert the rect to the absolute position
+	var absoluteRect = new CanvasLayers.Rectangle(rect.x + this.getX(), rect.y + this.getY(), rect.width, rect.height);
 	
 	// Work out which areas of the rect intersect the visible portion of the
 	// layer
 	var damagedRects = new Array();
-	
-	// Convert the rect to the absolute position
-	absoluteRect = new CanvasLayers.Rectangle(rect.x + this.getX(), rect.y + this.getY(), rect.width, rect.height);
 	
 	for (var i in visibleRects) {
 		var intersect = absoluteRect.splitIntersection(visibleRects[i], new Array());
@@ -765,12 +789,8 @@ CanvasLayers.Layer.prototype.markRectDamaged = function(rect) {
 			damagedRects.push(intersect);
 		}
 	}
-	
-	// Send all damaged rects to the manager
-	var damagedRectManager = this.getDamagedRectManager();
 
-	if (!damagedRectManager) return;
-	
+	// Send all damaged rects to the manager
 	for (var i in damagedRects) {
 		damagedRectManager.addDamagedRect(damagedRects[i]);
 	}
