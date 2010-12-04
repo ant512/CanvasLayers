@@ -21,7 +21,7 @@ function init() {
 
     layer1.onRender = function(layer, rect, context) {
         context.fillStyle = isBlue ? '#0f0' : '#00f';
-        context.fillRect(layer.getX(), layer.getY(), layer.getWidth(), layer.getHeight());
+        context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
     }
 
     var timer = setInterval("changeScene()", 100);

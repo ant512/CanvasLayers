@@ -883,6 +883,8 @@ CanvasLayers.Layer.prototype.render = function(rect) {
 	context.rect(rect.x, rect.y, rect.width, rect.height);
 	context.clip();
 	
+	context.translate(this.getX(), this.getY());
+	
 	// Call user rendering code
 	if (this.onRender != null) this.onRender(this, rect, context);
 	

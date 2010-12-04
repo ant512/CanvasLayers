@@ -22,7 +22,7 @@ function init() {
 
     layer1.onRender = function(layer, rect, context) {
         context.fillStyle = '#00f';
-        context.fillRect(layer.getX(), layer.getY(), layer.getWidth(), layer.getHeight());
+        context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
     }
 
     layer2 = new CanvasLayers.Layer(100, 50, 60, 80);
@@ -30,7 +30,7 @@ function init() {
 
     layer2.onRender = function(layer, rect, context) {
         context.fillStyle = '#0f0';
-        context.fillRect(layer.getX(), layer.getY(), layer.getWidth(), layer.getHeight());
+        context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
     }
 
     layer2.lowerToBottom();
