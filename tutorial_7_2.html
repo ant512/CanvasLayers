@@ -1,0 +1,40 @@
+<html>
+    <head>
+	    <script src="canvaslayers.js"></script>
+        <script>
+var container;
+
+BlueLayer = function(x, y, width, height) {
+    CanvasLayers.Layer.prototype.constructor.call(this, x, y, width, height);
+    
+    this.onRender = function(layer, rect, context) {
+        context.fillStyle = '#00f';
+        context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
+	}
+}
+
+BlueLayer.prototype = new CanvasLayers.Layer;
+
+BlueLayer.prototype.constructor = BlueLayer;
+
+function init() {
+    var canvas = document.getElementById("canvas");
+    container = new CanvasLayers.Container(canvas, false);
+
+    container.onRender = function(layer, rect, context) {
+        context.fillStyle = '#000';
+        context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
+    }
+
+    var blue = new BlueLayer(10, 60, 60, 60);
+    container.getChildren().add(blue);
+
+    container.redraw();
+}
+        </script>
+    </head>
+
+    <body onload="init()">
+        <canvas id="canvas" width="400" height="400">No canvas support</canvas>
+    </body>
+</html>
