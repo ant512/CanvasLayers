@@ -60,7 +60,7 @@ var CanvasLayers = {
 	 * @param Layer The layer that contains the list.
 	 */
 	LayerCollection: function(layer) {
-		this.list = [];
+		this.list = new Array();
 		this.layer = layer;
 	},
 	
@@ -74,7 +74,7 @@ var CanvasLayers = {
 	 */
 	DamagedRectManager: function(layer, supportsTransparency) {
 		this.layer = layer;
-		this.damagedRects = [];
+		this.damagedRects = new Array();
 		this.supportsTransparency = supportsTransparency;
 	},
 	 
@@ -111,8 +111,8 @@ var CanvasLayers = {
  * @param rect The rect to add to the list.
  */
 CanvasLayers.DamagedRectManager.prototype.addDamagedRect = function(rect) {
-	var newRects = [];
-	var remainingRects = [];
+	var newRects = new Array();
+	var remainingRects = new Array();
 
 	newRects.push(rect);
 
@@ -141,7 +141,7 @@ CanvasLayers.DamagedRectManager.prototype.addDamagedRect = function(rect) {
 					j++;
 				}
 
-				remainingRects = [];
+				remainingRects = new Array();
 			}
 		}
 	}
@@ -157,7 +157,7 @@ CanvasLayers.DamagedRectManager.prototype.addDamagedRect = function(rect) {
  */
 CanvasLayers.DamagedRectManager.prototype.redraw = function() {
 	this.drawRects(this.layer, this.damagedRects);
-	this.damagedRects = [];
+	this.damagedRects = new Array();
 }
 
 /**
@@ -194,8 +194,8 @@ CanvasLayers.DamagedRectManager.prototype.drawRects = function(layer, damagedRec
 
 	var layerRect = layer.getRectClippedToHierarchy();
 	
-	var remainingRects = [];
-	var subRects = [];
+	var remainingRects = new Array();
+	var subRects = new Array();
 	
 	// Work out which of the damaged rects collide with the current layer
 	for (var i = 0; i < damagedRects.length; ++i) {
@@ -215,7 +215,7 @@ CanvasLayers.DamagedRectManager.prototype.drawRects = function(layer, damagedRec
 				i++;
 			}
 			
-			remainingRects = [];
+			remainingRects = new Array();
 			
 			subRects.push(intersection);
 			
@@ -256,7 +256,7 @@ CanvasLayers.DamagedRectManager.prototype.drawRects = function(layer, damagedRec
 				}
 			}
 			
-			subRects = [];
+			subRects = new Array();
 		}
 	}
 }
@@ -770,7 +770,7 @@ CanvasLayers.Layer.prototype.markRectDamaged = function(rect) {
 	// redraw the portions of the rect that overlap the visible regions of the
 	// rect
 	if (damagedRectManager.supportsTransparency) {
-		visibleRects = [];
+		visibleRects = new Array();
 		visibleRects.push(this.rect);
 	} else {
 		visibleRects = this.getVisibleRects();
@@ -781,7 +781,7 @@ CanvasLayers.Layer.prototype.markRectDamaged = function(rect) {
 	
 	// Work out which areas of the rect intersect the visible portion of the
 	// layer
-	var damagedRects = [];
+	var damagedRects = new Array();
 	
 	for (var i in visibleRects) {
 		var intersect = absoluteRect.splitIntersection(visibleRects[i], []);
@@ -806,7 +806,7 @@ CanvasLayers.Layer.prototype.getVisibleRects = function() {
 
 	var rect = new CanvasLayers.Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight());
 
-	var visibleRects = [];
+	var visibleRects = new Array();
 	visibleRects.push(rect);
 	
 	var layer = this;
@@ -824,7 +824,7 @@ CanvasLayers.Layer.prototype.getVisibleRects = function() {
 			// Remove any overlapped rectangles
 			for (var i = layerIndex; i < parent.getChildren().length(); i++) {
 				for (var j = 0; j < visibleRects.length; ++j) {
-					var remainingRects = [];
+					var remainingRects = new Array();
 					
 					var child = parent.getChildren().at(i);
 					var childRect = new CanvasLayers.Rectangle(child.getX(), child.getY(), child.getWidth(), child.getHeight());
