@@ -26,5 +26,5 @@ The Author
 Written by Antony Dzeryn.  For more info, email me at <ant@simianzombie.com>.
   
 
-  [1]: http://www.bitbucket.org/ant512/canvaslayers
-  [2]: http://ant.simianzombie.com
+  [1]: http://bitbucket.org/ant512/canvaslayers
+  [2]: http://simianzombie.com
