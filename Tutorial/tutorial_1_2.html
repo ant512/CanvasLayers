@@ -1,0 +1,24 @@
+<html>
+    <head>
+	    <script src="canvaslayers.js"></script>
+        <script>
+var container;
+
+function init() {
+    var canvas = document.getElementById("canvas");
+    container = new CanvasLayers.Container(canvas, false);
+	
+    container.onRender = function(layer, rect, context) {
+        context.fillStyle = '#000';
+        context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
+    }
+	
+	container.redraw();
+}
+        </script>
+    </head>
+
+    <body onload="init()">
+        <canvas id="canvas" width="400" height="400">No canvas support</canvas>
+    </body>
+</html>

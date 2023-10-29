@@ -1,30 +1,18 @@
-CanvasLayers
+Studiofy/CanvasLayers
 ============
 
 CanvasLayers is a small javascript library for adding layers to the HTML5
-canvas tag.  Unlike other canvas layer libraries, which use a stack of
-several canvas tags, only one canvas is used.
+canvas tag.  It is based on ant512/CanvasLayers' repository.
   
-
 Requirements
 ------------
 
-Any modern web browser (anything Webkit or Gecko-based, Opera, etc).  It even
-works in IE9, but is very slow in that browser.
-
-
-Links
------
-
- * [BitBucket Page][1]
- * [Development Blog][2]
-
+* Any modern web browser (anything Webkit or Gecko-based, Opera, etc).
 
 The Author
 ----------
+* Written by [Antony Dzeryn](https://github.com/ant512) - [Email](ant@simianzombie.com)
 
-Written by Antony Dzeryn.  For more info, email me at <ant@simianzombie.com>.
-  
-
-  [1]: http://bitbucket.org/ant512/canvaslayers
-  [2]: http://simianzombie.com
+Contributor/s
+-----------
+* [Studiofy - Terence Carrera](https://github.com/RENCENDANT)

@@ -1,0 +1,42 @@
+<html>
+    <head>
+	    <script src="canvaslayers.js"></script>
+        <script>
+var container;
+var layer1;
+
+var isBlue = true;
+
+function init() {
+    var canvas = document.getElementById("canvas");
+    container = new CanvasLayers.Container(canvas, false);
+
+    container.onRender = function(layer, rect, context) {
+        context.fillStyle = '#000';
+        context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
+    }
+
+    layer1 = new CanvasLayers.Layer(10, 60, 60, 60);
+    container.getChildren().add(layer1);
+
+    layer1.onRender = function(layer, rect, context) {
+        context.fillStyle = isBlue ? '#0f0' : '#00f';
+        context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
+    }
+
+    var timer = setInterval("changeScene()", 100);
+}
+
+function changeScene() {
+	isBlue = !isBlue;
+	
+	layer1.markRectDamaged(new CanvasLayers.Rectangle(0, layer1.getHeight() / 2, layer1.getWidth(), layer1.getHeight() / 2));
+    container.redraw();
+}
+        </script>
+    </head>
+
+    <body onload="init()">
+        <canvas id="canvas" width="400" height="400">No canvas support</canvas>
+    </body>
+</html>

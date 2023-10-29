@@ -1,0 +1,76 @@
+<html>
+    <head>
+	    <script src="canvaslayers.js"></script>
+        <script>
+var container;
+var layer1;
+var layer2;
+var layer3;
+
+var dx = 1;
+var dy = 2;
+
+function init() {
+    var canvas = document.getElementById("canvas");
+    container = new CanvasLayers.Container(canvas, false);
+
+    container.onRender = function(layer, rect, context) {
+        context.fillStyle = '#000';
+        context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
+    }
+
+    layer1 = new CanvasLayers.Layer(10, 10, 100, 100);
+    container.getChildren().add(layer1);
+	
+	layer1.setPermeable(true);
+
+    layer1.onRender = function(layer, rect, context) {
+        context.fillStyle = '#00f';
+        context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
+    }
+
+    layer2 = new CanvasLayers.Layer(0, 45, 100, 10);
+    layer1.getChildren().add(layer2);
+
+    layer2.onRender = function(layer, rect, context) {
+        context.fillStyle = '#0f0';
+        context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
+    }
+
+    layer3 = new CanvasLayers.Layer(10, 10, 20, 20);
+    layer1.getChildren().add(layer3);
+	
+	layer3.lowerToBottom();
+
+    layer3.onRender = function(layer, rect, context) {
+        context.fillStyle = '#f00';
+        context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
+    }
+
+	var timer = setInterval("changeScene()", 10);
+}
+
+function changeScene() {
+	layer3.moveTo(layer3.getRelativeX() + dx, layer3.getRelativeY() + dy);
+	
+	if (layer3.getRelativeX() >= layer3.getParent().getWidth()) {
+		dx = -1;
+	} else if (layer3.getRelativeX() <= -layer3.getWidth()) {
+		dx = 1;
+	}
+	
+	if (layer3.getRelativeY() >= layer3.getParent().getHeight()) {
+		dy = -2;
+	} else if (layer3.getRelativeY() <= -layer3.getHeight()) {
+		dy = 2;
+	}
+	
+	container.redraw();
+}
+        </script>
+    </head>
+
+    <body onload="init()">
+        <canvas id="canvas" width="400" height="400">No canvas support</canvas>
+    </body>
+</html>

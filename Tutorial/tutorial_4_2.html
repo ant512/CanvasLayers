@@ -1,0 +1,143 @@
+<html>
+    <head>
+        <script src="canvaslayers.js"></script>
+        <script>
+var container;
+var layer1;
+var layer2;
+var layer3;
+
+// Define colours so we can switch to rolled over and back again
+var containerColour = '#000';
+var layer1Colour = '#00f';
+var layer2Colour = '#0f0';
+var layer3Colour = '#f00';
+var rolloverColour = '#fff';
+var previousColour = null;
+var previousLayer = null;
+
+function init() {
+    var canvas = document.getElementById("canvas");
+    container = new CanvasLayers.Container(canvas, false);
+
+    container.onRender = function(layer, rect, context) {
+        context.fillStyle = containerColour;
+        context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
+    }
+
+    layer1 = new CanvasLayers.Layer(10, 10, 100, 100);
+    container.getChildren().add(layer1);
+
+    layer1.onRender = function(layer, rect, context) {
+        context.fillStyle = layer1Colour;
+        context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
+    }
+
+    layer2 = new CanvasLayers.Layer(10, 10, 50, 50);
+    layer1.getChildren().add(layer2);
+
+    layer2.onRender = function(layer, rect, context) {
+        context.fillStyle = layer2Colour;
+        context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
+    }
+
+    layer3 = new CanvasLayers.Layer(10, 10, 20, 20);
+    layer2.getChildren().add(layer3);
+
+    layer3.onRender = function(layer, rect, context) {
+        context.fillStyle = layer3Colour;
+        context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
+    }
+
+    canvas.addEventListener("mousedown", function(e) {
+        var x = e.clientX - canvas.offsetLeft + window.pageXOffset;
+        var y = e.clientY - canvas.offsetTop + window.pageYOffset;
+
+        var layer = container.getLayerAt(x, y);
+
+        switch (layer) {
+            case container:
+                alert("container");
+                break;
+            case layer1:
+                alert("layer1");
+                break;
+            case layer2:
+                alert("layer2");
+                break;
+            case layer3:
+                alert("layer3");
+                break;
+        }
+    }, false);
+
+    canvas.addEventListener("mousemove", function(e) {
+        var x = e.clientX - canvas.offsetLeft + window.pageXOffset;
+        var y = e.clientY - canvas.offsetTop + window.pageYOffset;
+
+        var layer = container.getLayerAt(x, y);
+        
+        // Make sure that the layer previously rolled over is restored to its
+        // original state
+        switch (previousLayer) {
+            case container:
+                containerColour = previousColour;
+                previousColour = null;
+                container.markRectsDamaged();
+                break;
+            case layer1:
+                layer1Colour = previousColour;
+                previousColour = null;
+                layer1.markRectsDamaged();
+                break;
+            case layer2:
+                layer2Colour = previousColour;
+                previousColour = null;
+                layer2.markRectsDamaged();
+                break;
+            case layer3:
+                layer3Colour = previousColour;
+                previousColour = null;
+                layer3.markRectsDamaged();
+                break;
+        }
+        
+        // Remember the rolled over layer so it can be restored later
+        previousLayer = layer;
+
+        // Highlight the rolled over layer
+        switch (layer) {
+            case container:
+                previousColour = containerColour;
+                containerColour = rolloverColour;
+                container.markRectsDamaged();
+                break;
+            case layer1:
+                previousColour = layer1Colour;
+                layer1Colour = rolloverColour;
+                layer1.markRectsDamaged();
+                break;
+            case layer2:
+                previousColour = layer2Colour;
+                layer2Colour = rolloverColour;
+                layer2.markRectsDamaged();
+                break;
+            case layer3:
+                previousColour = layer3Colour;
+                layer3Colour = rolloverColour;
+                layer3.markRectsDamaged();
+                break;
+        }
+        
+        container.redraw();
+    }, false);
+
+    container.redraw();
+}
+        </script>
+    </head>
+
+    <body onload="init()">
+        <canvas id="canvas" width="400" height="400">No canvas support</canvas>
+    </body>
+</html>

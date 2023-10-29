@@ -1,0 +1,51 @@
+<html>
+    <head>
+	    <script src="canvaslayers.js"></script>
+        <script>
+var container;
+var layer1;
+var layer2;
+var layer3;
+
+function init() {
+    var canvas = document.getElementById("canvas");
+    container = new CanvasLayers.Container(canvas, false);
+
+    container.onRender = function(layer, rect, context) {
+        context.fillStyle = '#000';
+        context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
+    }
+
+    layer1 = new CanvasLayers.Layer(10, 10, 100, 100);
+    container.getChildren().add(layer1);
+
+    layer1.onRender = function(layer, rect, context) {
+        context.fillStyle = '#00f';
+        context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
+    }
+
+    layer2 = new CanvasLayers.Layer(10, 10, 50, 50);
+    layer1.getChildren().add(layer2);
+
+    layer2.onRender = function(layer, rect, context) {
+        context.fillStyle = '#0f0';
+        context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
+    }
+
+    layer3 = new CanvasLayers.Layer(10, 10, 20, 20);
+    layer2.getChildren().add(layer3);
+
+    layer3.onRender = function(layer, rect, context) {
+        context.fillStyle = '#f00';
+        context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
+    }
+
+    container.redraw();
+}
+        </script>
+    </head>
+
+    <body onload="init()">
+        <canvas id="canvas" width="400" height="400">No canvas support</canvas>
+    </body>
+</html>
