@@ -1,3 +1,4 @@
+/*
 Copyright © 2023 Studiofy & Antony Dzeryn
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -17,3 +18,30 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+*/
+
+/**
+ * 
+ * The concept of CanvasLayerContainer/CanvasLayer/CanvasLayerElement is based on the concept of original canvaslayers.js.
+ * It uses an array to collect objects and their properties and use it also to manage their z-indexes
+ * 
+ */
+
+import CanvasLayer from './CanvasLayer.js';
+
+export default class LayerElement {
+
+    /**
+     * Initializes a new CanvasLayer and add it to the _layerElements collection
+     * @param {CanvasLayer} layer the parent layer of the Element
+     */
+    constructor(name = "New Element", width, height) {
+        // Will be implemented after November 2, 2023
+    }
+    
+    addToLayer(layer) {
+        // Will be implemented after November 2, 2023
+    }
+
+}
